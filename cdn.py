@@ -3,7 +3,7 @@ class CDN(object):
 
     def __init__(self):
         """Initialize a CDN"""
-        # This graph is a dictionary with nodes as keys and a list of arcs as values
+        # This graph is a dictionary with server as keys and a list of conections (arcs) as values
         self.graph = { 
             'New York': ['London', 'Seattle'],
             'Chicago': ['Washington D.C.', 'Austin', 'Buenos Ares'],
@@ -33,31 +33,10 @@ class CDN(object):
             'Buenos Ares': ['Moscow', 'Sao Paulo'],
             'Sao Paulo': ['Johannesburg', 'Buenos Ares']}
 
-        # This dicionary has nodes as keys and a list of files stored there as values
-        self.content = {
-            'New York': [],
-            'Chicago': [],
-            'San Francisco': [],
-            'Seattle': [],
-            'Washington D.C.': [],
-            'Austin': [],
-            'Montreal': [],
-            'Mexico City': [],
-            'London': [],
-            'Paris': [],
-            'Moscow': [],
-            'Berlin': [],
-            'Rome': [],
-            'Cairo': [],
-            'Johannesburg': [],
-            'Tokyo': [],
-            'Beijing': [],
-            'Bangkok': [],
-            'Mumbai': [],
-            'Sydney': [],
-            'Seoul': [],
-            'Buenos Ares': [],
-            'Sao Paulo': []}
+        # This dicionary has servers as keys and a list of files stored there as values
+        self.content = {}
+        for server in list(self.graph.keys()):
+            self.content[server] = []
 
     def put(self, file, server):
         """puts content on the network
