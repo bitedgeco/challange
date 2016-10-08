@@ -39,57 +39,49 @@ class CDN(object):
             self.content[server] = []
 
     def put(self, file, server):
-        """puts content on the network
+        """puts content on every server on the network
 
         first argument 'file' is the content to upload.
-        Second argument 'server' is where it will be stored"""
-        self.content[server].append(file)
-        return 'Status:200, the file named "{}" was succesfuly distributed at {}.'\
+        Second argument 'server' is ther users server"""
+        for lsts in list(self.content.values()):
+            lsts.append(file)
+        return 'Status:200, the file named "{}" was succesfuly distributed from {}.'\
             .format(file, server)
 
-    def get(self, file, user_server):
+    def get(self, file, server):
         """gets content from the network and returns the path it took
 
         first argument 'file' is the content to get
-        second argument ' user_server' is the users closest server"""
-        for lsts in self.content.values():
-            if file in lsts:
-                for key, vals in self.content.items():
-                    if file in vals:
-                        file_server = key
-                        path = self.find_path(file_server, user_server)
-                return 'status:200, retrieved file named "{}" from {}. The path was{}'\
-                    .format(file, file_server, path)
-        return 'status 404, there is no file named "{}"'.format(file)
+        second argument ' user_server' is where we will get it from"""
+        if file in self.content[server]:
+            return 'status:200, retrieved file named "{}" from {}'.format(file, server)
+        else:
+            return 'status 404, there is no file named "{}" on {} server'.format(file, server)
 
     def post(self, old_file, new_file):
-        """update content on server
+        """update content on servers
 
         first argument 'old_file' is the content to replace
         second argument 'new_file' is the content to replace is with"""
-        for lsts in self.content.values():
-            if old_file in lsts:
-                for key, vals in self.content.items():
-                    if old_file in vals:
-                        server = key
-                self.content[server].remove(old_file)
-                self.content[server].append(new_file)
-                return 'status:200, file named "{}" has been updated to file named "{}"'\
-                    .format(old_file, new_file)
-        return 'status 404 there is no file named "{}"'.format(old_file)
+        if old_file in self.content['Tokyo']:
+            for lst in self.content.values():
+                lst.remove(old_file)
+                lst.append(new_file)
+            return 'status:200, file named "{}" has been updated to file named "{}"'\
+                .format(old_file, new_file)
+        else:
+            return 'status 404 there is no file named "{}"'.format(old_file)
 
     def delete(self, file):
         """remove content
 
         first argument is the content to be removed"""
-        for lsts in self.content.values():
-            if file in lsts:
-                for key, vals in self.content.items():
-                    if file in vals:
-                        server = key
-                self.content[server].remove(file)
-                return 'status:200, file named "{}" has been removed'.format(file)
-        return 'status 404 there is no file named "{}"'.format(file)
+        if file in self.content['Tokyo']:
+            for lst in self.content.values():
+                lst.remove(file)
+            return 'status:200, file named "{}" has been deleted'.format(file)
+        else:
+            return 'status 404 there is no file named "{}"'.format(file)
 
     def find_path(self, start, end, path=[]):
         """Finds a path between start and end nodes in a graph"""
@@ -121,38 +113,37 @@ if __name__ == "__main__":
     print('initial state of cdn')
     print(cdn.content)
     print("")
-    print('puting verious files on various servers')
+    print('puting verious files on from various servers')
     print(cdn.put('vid', 'Tokyo'))
-    print(cdn.put('pic', 'Tokyo'))
     print(cdn.put('book', 'London'))
     print(cdn.put('photo', 'Cairo'))
-    print(cdn.put('movie', 'New York'))
-    print(cdn.put('music', 'Sydney'))
-    print(cdn.put('tune', 'Rome'))
-    print(cdn.put('doc', 'Paris'))
-    print(cdn.put('scan', 'Tokyo'))
-    print(cdn.put('speread sheet', 'Tokyo'))
     print("")
     print('new state of cdn')
     print(cdn.content)
     print("")
-    print('current state of Tokyo server')
-    print(cdn.content['Tokyo'])
+    print('get file named "vid" from Tokyo server')
+    print(cdn.get('vid', 'Tokyo'))
     print("")
-    print('get file named "scan" from Tokyo server while in London')
-    print(cdn.get('scan', 'London'))
+    print('try to get file named "doc" from Tokyo server')
+    print(cdn.get('scan', 'Tokyo'))
     print("")
-    print('update file named "scan" to file named "Awsome scan!"')
-    print(cdn.post('scan', 'Awsome scan!'))
+    print('update file named "book" to file named "Awsome book!"')
+    print(cdn.post('book', 'Awsome book!'))
     print("")
-    print('new state of Tokyo server')
-    print(cdn.content['Tokyo'])
+    print('new state of cdn')
+    print(cdn.content)
     print("")
-    print('delete file named "vid" from Tokyo server')
+    print('try to update file named "doc" to file named "Awsome doc!"')
+    print(cdn.post('doc', 'Awsome doc!'))
+    print("")
+    print('delete file named "vid"')
     print(cdn.delete('vid'))
     print("")
-    print('new state of Tokyo server')
-    print(cdn.content['Tokyo'])
+    print('new state of cdn')
+    print(cdn.content)
+    print("")
+    print('try to delete file named "scan"')
+    print(cdn.delete('scan'))
     print("")
     print('find path from Sydney to Seattle')
     print(cdn.find_path('Sydney', 'Seattle'))
