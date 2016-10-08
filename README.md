@@ -14,7 +14,7 @@ AT MOST three outgoing connections.
 They want you to decide which connections to make.
 These are the cities they're considering:
 
--North America-
+-North America-   
 New York, US
 Chicago, US
 San Francisco, US
@@ -24,18 +24,18 @@ Austin, US
 Montreal, CAN
 Mexico City, MEX
 
--Europe-
+-Europe-   
 London, UK
 Paris, FRA
 Moscow, RUS
 Berlin, GER
 Rome, ITA
 
--Africa-
+-Africa-   
 Cairo, EG
 Johannesburg, ZA
 
--Asia-
+-Asia-   
 Tokyo, JAP
 Beijing, CHI
 Bangkok, TH
@@ -43,7 +43,7 @@ Mumbai, IND
 Sydney, AUS
 Seoul, KR
 
--South America-
+-South America-   
 Buenos Ares, ARG
 Sao Paulo, BRZ
 
