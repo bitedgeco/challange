@@ -97,17 +97,6 @@ class CDN(object):
                     return newpath
         return None
 
-    def get_key_from_val(self, file):
-        """We should use this every time we run the code contained in it,
-        I am not sure why it always seems to return None"""
-        for lsts in self.content.values():
-            if file in lsts:
-                for server, vals in self.content.items():
-                    if file in vals:
-                        return server
-        return None
-
-
 if __name__ == "__main__":
     cdn = CDN()
     print('initial state of cdn')
